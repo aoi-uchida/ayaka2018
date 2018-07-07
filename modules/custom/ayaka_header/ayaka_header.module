@@ -16,5 +16,8 @@ function ayaka_header_theme() {
     'ayaka_my_fitness' => array(
       'template' => 'block--ayaka-my-fitness',
     ),
+    'ayaka_footer' => array(
+      'template' => 'block--ayaka-footer',
+    ),
   );
 }
