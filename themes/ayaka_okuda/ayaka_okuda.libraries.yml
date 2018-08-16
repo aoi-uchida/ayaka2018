@@ -1,0 +1,23 @@
+ayaka_okuda:
+  omega:
+    allow_clone_for_subtheme: true
+    allow_enable_disable: true
+    title: 'Default library for ayaka_okuda.'
+    description: 'Default Omega subtheme library description. Please provide a more meaningful description (and title) for this library by editing the ayaka_okuda.libraries.yml file.'
+    scss: 
+      style/css/ayaka_okuda.css: 'style/scss/ayaka_okuda.scss'
+  version: VERSION
+  js:
+    # Custom Javascript file for your own JS modifications.
+    # Examples of behaviors in JS file.
+    js/ayaka_okuda.js: {}
+    
+  css:
+    theme:
+      # Custom CSS file to be loaded in all media circumstances
+      style/css/ayaka_okuda.css: {}
+  dependencies:
+#     - core/modernizr
+#     - core/jquery
+#     - core/drupal
+#     - core/drupalSettings

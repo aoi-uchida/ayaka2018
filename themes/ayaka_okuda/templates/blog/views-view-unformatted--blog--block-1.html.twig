@@ -1,0 +1,33 @@
+{#
+/**
+ * @file
+ * Theme override to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ */
+#}
+<!-- Blog -->
+<article>
+  <div class="page-container" id="blog">
+    <h1 class="article-title">Blog</h1>
+    <div class="blog-wrap">
+      {% for row in rows %}
+      <div class="blog-box">
+      {{ row.content }}
+      </div>
+      {% endfor %}
+    </div>
+    <div class="blog-more-link">
+      <a href="blog">Link To Blog</a>
+    </div>
+  </div>
+</article>

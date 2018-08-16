@@ -1,0 +1,7 @@
+name: Ayaka Block Header 
+description: Ayaka Okuda's Block (Header)
+core: 8.x
+package: Custom
+dependencies:
+- block
+type: module 

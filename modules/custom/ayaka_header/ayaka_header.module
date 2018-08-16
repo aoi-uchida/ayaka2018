@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * ブロックを提供します。
+ */
+
+function ayaka_header_theme() {
+  return array(
+    'ayaka_header' => array(
+      'template' => 'block--ayaka-header',
+    ),
+    'ayaka_about_me' => array(
+      'template' => 'block--ayaka-about-me',
+    ),
+    'ayaka_my_fitness' => array(
+      'template' => 'block--ayaka-my-fitness',
+    ),
+    'ayaka_footer' => array(
+      'template' => 'block--ayaka-footer',
+    ),
+  );
+}
