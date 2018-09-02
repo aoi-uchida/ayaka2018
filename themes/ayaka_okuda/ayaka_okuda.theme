@@ -4,3 +4,69 @@
  * @file
  * Functions to support theming in the theme.
  */
+use Drupal\media\Entity\Media;
+use Drupal\image\Entity\ImageStyle;
+
+function ayaka_okuda_preprocess_views_view_unformatted__schedule__block_1(&$variables) {
+  if (!$view = $variables['view']) return;
+
+  foreach ($view->result as $key => $result) {
+    // Get values.
+    $week = $result->_entity->get('field_week')->value;
+    $lesson_title = $result->_entity->get('title')->value;
+    $lesson_category = $result->_entity->get('field_lesson_catogory')->value;
+    // Time.
+    $lesson_start_time_sec = $result->_entity->get('field_start_time')->value;
+    $lesson_start_time = \Drupal::service('hms_field.hms')
+      ->seconds_to_formatted($lesson_start_time_sec, 'h:mm', TRUE);
+    $lesson_end_time_sec = $result->_entity->get('field_end_time')->value;
+    $lesson_end_time = \Drupal::service('hms_field.hms')
+      ->seconds_to_formatted($lesson_end_time_sec, 'h:mm', TRUE);
+    $lesson_image_url = $result->_entity->get('field_lesson_img')->entity->uri->value;
+    if ($lesson_image_url && gettype($lesson_image_url) === 'string') {
+      $lesson_image_url = ImageStyle::load('schedule_img')->buildUrl($lesson_image_url);
+    }
+    // Location.
+    $lesson_location_id = $result->_entity->get('field_location')->target_id;
+    $lesson_location_node = \Drupal\node\Entity\Node::load($lesson_location_id);
+    $lesson_location_title = $lesson_location_node->get('title')->value;
+    $lesson_location_city = $lesson_location_node->get('field_city')->value;
+    $lesson_location_map = $lesson_location_node->get('field_location_map');
+
+    $map_lat = $lesson_location_map->lat;
+    $map_lon = $lesson_location_map->lon;
+    $map_zoom = $lesson_location_map->zoom;
+    $map_name = $lesson_location_map->name;
+    $map_type = $lesson_location_map->type;
+    $map_width = $lesson_location_map->width;
+    $map_height = $lesson_location_map->height;
+    $map_marker = $lesson_location_map->marker;
+    $map_controls = $lesson_location_map->controls;
+    $map_infowindow = $lesson_location_map->infowindow;
+
+    $variables['schedules'][$week][] = [
+      'title' => $lesson_title,
+      'category' => $lesson_category,
+      'start_time' => $lesson_start_time,
+      'end_time' => $lesson_end_time,
+      'image' => $lesson_image_url,
+      'location_title' => $lesson_location_title,
+      'location_city' => $lesson_location_city,
+    ];
+  }
+
+  $keys = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+  $sorted_array = [];
+  foreach ($keys as $key) {
+    foreach ($variables['schedules'] as $idx => $schedule) {
+      if ($key == $idx) {
+        $sorted_array[] = $schedule;
+        unset($variables['schedules'][$idx]);
+        break;
+      }
+    }
+  }
+
+$variables['schedules'] = $sorted_array;
+
+}

@@ -19,5 +19,8 @@ function ayaka_header_theme() {
     'ayaka_footer' => array(
       'template' => 'block--ayaka-footer',
     ),
+    'ayaka_header_page' => array(
+      'template' => 'block--ayaka-header-page',
+    ),
   );
 }

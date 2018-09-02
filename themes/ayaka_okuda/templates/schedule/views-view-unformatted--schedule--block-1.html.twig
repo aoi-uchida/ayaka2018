@@ -1,0 +1,111 @@
+{#
+/**
+ * @file
+ * Theme override to display a view of unformatted rows.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ */
+#}
+{% set week = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] %}
+<!-- Schedule -->
+<article>
+  <div class="page-container" id="schedule">
+    <h1 class="article-title">Schedule</h1>
+    <div class="schedule-wrap"><!-- tab-container -->
+      <div class="tab-wrap">
+        <!-- TAB CONTROLLERS -->
+        <!-- <input id="mon" class="panel-radios" type="radio" name="tab-radios"> -->
+        <input id="tue" class="panel-radios" type="radio" name="tab-radios" checked="">
+        <input id="wed" class="panel-radios" type="radio" name="tab-radios">
+        <input id="thu" class="panel-radios" type="radio" name="tab-radios">
+        <input id="fri" class="panel-radios" type="radio" name="tab-radios">
+        <input id="sat" class="panel-radios" type="radio" name="tab-radios">
+        <input id="sun" class="panel-radios" type="radio" name="tab-radios">
+        <input id="nav-ctrl" class="panel-radios" type="checkbox" name="nav-checkbox">
+
+        <!-- TABS MENU -->
+        <ul class="tab-menu">
+          <label class="open-nav-label" for="nav-ctrl"></label>
+          <li class="li-for-mon">
+            <label class="tab-label" for="mon">月<span>Mon</span></label>
+          </li>
+          <li class="li-for-tue">
+            <label class="tab-label" for="tue">火<span>Tue</span></label>
+          </li>
+          <li class="li-for-wed">
+            <label class="tab-label" for="wed">水<span>Wed</span></label>
+          </li>
+          <li class="li-for-thu">
+            <label class="tab-label" for="thu">木<span>Thu</span></label>
+          </li>
+          <li class="li-for-fri">
+            <label class="tab-label" for="fri">金<span>Fri</span></label>
+          </li>
+          <li class="li-for-sat">
+            <label class="tab-label" for="sat">土<span>Sat</span></label>
+          </li>
+          <li class="li-for-sun">
+            <label class="tab-label" for="sun">日・祝<span>Irregular</span></label>
+          </li>
+        </ul>
+        <!-- End of Tabs Menu -->
+
+        <!-- TABS HEAD -->
+        <ul class="tab-head">
+          <li class="sc-head-category"></li>
+          <li class="sc-head-time">Time</li>
+          <li class="sc-head-lesson">Lesson</li>
+          <li class="sc-head-located">located</li>
+        </ul>
+        <!-- End of Tabs Head -->
+
+        <!-- TABS PANEL -->
+        <div class="tab-content" style="height: 480px;">
+          {% for schedule in schedules %}
+          <ul class="tab-items panel-{{ attribute(week, loop.index) }}">
+            {% for item in schedule %}
+              <li class="tab-item">
+                <div class="sc-category sc-{{ item.category }}"></div>
+                <div class="sc-time"><time>{{ item.start_time }}<span class="sc-endtime">〜{{ item.end_time }}</span></time></div>
+                <div class="sc-lesson">
+                  <div class="sc-lesson-p">{{ item.title }}</div>
+                  {% if item.image %}
+                    <div class="sc-img-btn popup-open-btn">
+                      <p>image<i class="fas fa-camera"></i></p>
+                    </div>
+                    <image class="sc-img popup-entity" src="{{ item.image }}" aria-hidden="true" />
+                    <div class="sc-img-overlay popup-overlay" aria-hidden="true">
+                      <div class="sc-img-close-btn overlay-close-btn"><i class="far fa-times-circle"></i></div>
+                    </div>
+                  {% endif %}
+                </div>
+                <div class="sc-locate-city">{{ item.location_city }}</div>
+                <div class="sc-locate-place">{{ item.location_title }}</div>
+                <div class="sc-map-btn popup-open-btn"><p>map<i class="fas fa-map-marker-alt"></i></p></div>
+                <div class="sc-map popup-entity" aria-hidden="true">
+                  <iframe src="http://maps.google.co.jp/maps?q={{ item.location_title }}&amp;z=17&amp;output=embed&amp;iwloc=A;z={{ item.map_zoom }}" frameborder="0" style="border:0" scrolling="no"></iframe>
+                </div>
+                <div class="sc-map-overlay popup-overlay" aria-hidden="true">
+                  <div class="sc-map-close-btn overlay-close-btn"><i class="far fa-times-circle"></i></div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+          {% endfor %}
+        </div>
+        <!-- End of Tabs Panel -->
+      </div>
+      <!-- End of Tab Wrap -->
+    </div>
+  </div>
+</article>
+
